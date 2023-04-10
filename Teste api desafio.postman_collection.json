@@ -1,0 +1,320 @@
+{
+	"info": {
+		"_postman_id": "56be65e3-20f5-4d80-8dde-2d283eddd7a1",
+		"name": "Teste api desafio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Teste findAllClientes()",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/clientes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste findAllEnderecos()",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/enderecos",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"enderecos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste getCliente()",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/cliente/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cliente",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste getEndereco()",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/endereco/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"endereco",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste getClienteEndereco()",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/8/buscar-endereco/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"8",
+						"buscar-endereco",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste getEnderecoPrincipal()",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/3/endereco/principal",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"3",
+						"endereco",
+						"principal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste getClienteEnderecos()",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/3/enderecos",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"3",
+						"enderecos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste criarCliente()",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Davi\",\r\n    \"dataNascimento\": \"2022-07-10\",\r\n    \"enderecos\": [\r\n        {\r\n            \"logradouro\": \"rua rio de janeiro\",\r\n            \"cep\": \"10122-333\",\r\n            \"numero\": \"720\",\r\n            \"cidade\": \"campina grande\"\r\n        },\r\n        {\r\n            \"logradouro\": \"rua minas gerais\",\r\n            \"cep\": \"50777-77\",\r\n            \"numero\": \"77\",\r\n            \"cidade\": \"campina grande\",\r\n            \"principal\": true\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste saveEnderco()",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"logradouro\": \"rua santa catarina\",\r\n            \"cep\": \"10000-030\",\r\n            \"numero\": \"100\",\r\n            \"cidade\": \"campina grande\"\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/1/endereco",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1",
+						"endereco"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste setEnderecoPrincipal()",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/1/endereco-principal/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1",
+						"endereco-principal",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste updateCliente(nome e dataNascimento)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Roberto\",\r\n    \"dataNascimento\": \"2000-11-10\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/atualizar/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"atualizar",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste updateCliente(com endereço)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Carlos\",\r\n    \"enderecos\": [\r\n        {\r\n            \"logradouro\": \"rua das pedras\",\r\n            \"cep\": \"10333-222\",\r\n            \"numero\": \"200\",\r\n            \"cidade\": \"campina grande\"\r\n        },\r\n        {\r\n            \"logradouro\": \"rua santa catarina\",\r\n            \"cep\": \"11666-66\",\r\n            \"numero\": \"66\",\r\n            \"cidade\": \"campina grande\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/atualizar/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"atualizar",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste deleteEnderecoComAutenticacao()",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/2/delete-endereco/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"2",
+						"delete-endereco",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste deleteEnderecoById()",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/delete-endereco/7",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delete-endereco",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Teste deleteClienteById()",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
