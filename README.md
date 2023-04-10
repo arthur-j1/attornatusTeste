@@ -1,7 +1,14 @@
 <body>
   <h1>Gerenciamento de clientes e endereços</h1>
 
-  <p>Foi adicionado ao projeto o arquivo Teste api desafio.postman_collection.json contendo os testes de todas as funções da classe controller. Este projeto de API tem como objetivo gerenciar informações de clientes e endereços utilizando as tecnologias Java, JUnit, Spring Framework e H2.</p>
+  <p>Este projeto de API tem como objetivo gerenciar informações de clientes e endereços utilizando as tecnologias Java, JUnit, Spring Framework e H2.</p>
+
+<h2>Observações</h2>
+ <p>Foi adicionado ao projeto o arquivo Teste api desafio.postman_collection.json contendo os testes de todas as funções da classe controller</p>
+ 	<p>Optei por não criar o metodo de atualizar o endereço do cliente, ao inves disso fazer o processo de excluir o endereço e criar um novo</p>
+ 	<p>Na função updateCliente() da classe controller decidi não utilizar a anotação @Valid para caso queira atualizar somente um campo do cliente não precisar preencher todos os outros campos,na função  a validação será feita na função usada da classe clienteService</p>
+	<p>A função getClienteEndereco(@PathVariable Long clienteId, @PathVariable Long enderecoId) da classe controller busca no banco de dados um endereco com id informado associado ao cliente, caso não haja, retorna o erro EndrecoNotFound ou ClienteNotFound se não tiver nenhum cliente com o id passado.
+ </p>
 
   <h2>Funcionalidades</h2>
 
