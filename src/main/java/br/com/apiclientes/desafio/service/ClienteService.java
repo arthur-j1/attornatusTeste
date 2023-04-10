@@ -19,11 +19,8 @@ public class  ClienteService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-
-
     public Cliente save(Cliente cliente){
         return clienteRepository.save(cliente);
-
     }
 
     public Cliente findById(Long id){
@@ -82,15 +79,15 @@ public class  ClienteService {
         Cliente clienteBanco = clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException(id));
 
         if (clienteAtualizado.getNome() != null){
-                clienteBanco.setNome(clienteAtualizado.getNome());
+            clienteBanco.setNome(clienteAtualizado.getNome());
         }if (clienteAtualizado.getDataNascimento() != null){
             clienteBanco.setDataNascimento(clienteAtualizado.getDataNascimento());
         }if (clienteAtualizado.getEnderecos() != null){
-            clienteBanco.setEnderecos(clienteAtualizado.getEnderecos());
-           for(Endereco endereco : clienteAtualizado.getEnderecos()){
-               endereco.setCliente(clienteBanco);
-               enderecoRepository.save(endereco);
-           }
+            for(Endereco endereco : clienteAtualizado.getEnderecos()){
+                clienteBanco.adicionarEndereco(endereco);
+                endereco.setCliente(clienteBanco);
+                enderecoRepository.save(endereco);
+            }
         }
         return clienteRepository.save(clienteBanco);
     }
@@ -109,8 +106,5 @@ public class  ClienteService {
                 .orElseThrow(() -> new EnderecoNotFoundException(enderecoId));
         return endereco;
     }
-
-
-
-
+    
 }
