@@ -1,7 +1,7 @@
 <body>
   <h1>Gerenciamento de clientes e endereços</h1>
 
-  <p>Foi adicionado ao projeto o arquivo Teste api desafio.postman_collection.json contendo os testes de todas as funções da classe controller. Este projeto de API tem como objetivo gerenciar informações de clientes e endereços utilizando as tecnologias Java, Spring Framework e H2.</p>
+  <p>Foi adicionado ao projeto o arquivo Teste api desafio.postman_collection.json contendo os testes de todas as funções da classe controller. Este projeto de API tem como objetivo gerenciar informações de clientes e endereços utilizando as tecnologias Java, JUnit, Spring Framework e H2.</p>
 
   <h2>Funcionalidades</h2>
 
