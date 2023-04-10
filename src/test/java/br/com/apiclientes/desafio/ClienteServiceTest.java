@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,11 +18,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
@@ -86,7 +85,11 @@ public class ClienteServiceTest {
         Cliente cliente = new Cliente();
         cliente.setNome("davi");
         cliente.setDataNascimento(LocalDate.of(2002, 8, 20));
-        cliente.setEnderecos(List.of(endereco,endereco3));
+
+        List<Endereco> enderecosCliente1 = new ArrayList<>();
+        enderecosCliente1.add(endereco);
+        enderecosCliente1.add(endereco3);
+        cliente.setEnderecos(enderecosCliente1);
         endereco.setCliente(cliente);
         endereco3.setCliente(cliente);
         clienteRepository.save(cliente);
@@ -102,13 +105,14 @@ public class ClienteServiceTest {
         Cliente cliente3 = new Cliente();
         cliente3.setNome("cliente3");
         cliente3.setDataNascimento(LocalDate.of(2000, 3, 3));
+        cliente3.setEnderecos(new ArrayList<Endereco>());
         clienteRepository.save(cliente3);
 
         Cliente cliente4 = new Cliente();
         cliente4.setNome("cliente4");
         cliente4.setDataNascimento(LocalDate.of(1995, 2, 2));
+        cliente4.setEnderecos(new ArrayList<Endereco>());
         clienteRepository.save(cliente4);
-
 
         when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
         when(clienteRepository.findById(2L)).thenReturn(Optional.of(cliente2));
@@ -120,21 +124,22 @@ public class ClienteServiceTest {
         when(enderecoRepository.findById(2L)).thenReturn(Optional.of(endereco2));
         when(enderecoRepository.findById(3L)).thenReturn(Optional.of(endereco3));
 
-
     }
 
 
     @Test
 //    @Transactional
     public void testFindById() {
-        Cliente result = clienteService.findById(1L);
+        Cliente resultado = clienteService.findById(1L);
 
-        assertEquals("davi", result.getNome());
-        assertEquals("00000-000", result.getEnderecos().get(0).getCep());
-        assertEquals("rua rio de janeiro", result.getEnderecos().get(0).getLogradouro());
-        assertEquals("campina grande", result.getEnderecos().get(0).getCidade());
-        assertEquals("000", result.getEnderecos().get(0).getNumero());;
-        assertEquals(LocalDate.of(2002, 8, 20),result.getDataNascimento());
+
+        assertTrue(resultado.getEnderecos().size() == 2);
+        assertEquals("davi", resultado.getNome());
+        assertEquals("00000-000", resultado.getEnderecos().get(0).getCep());
+        assertEquals("rua rio de janeiro", resultado.getEnderecos().get(0).getLogradouro());
+        assertEquals("campina grande", resultado.getEnderecos().get(0).getCidade());
+        assertEquals("000", resultado.getEnderecos().get(0).getNumero());;
+        assertEquals(LocalDate.of(2002, 8, 20),resultado.getDataNascimento());
 
     }
 
@@ -155,29 +160,29 @@ public class ClienteServiceTest {
     @Test
     public void testFindAll() {
 
-        List<Cliente> clientesEncontrados = clienteService.findAll();
-        Cliente cliente1 = clientesEncontrados.stream().filter(cliente -> cliente.getNome().equals("davi"))
-                .findFirst().orElse(null);
-        Cliente cliente2 = clientesEncontrados.stream().filter(cliente -> cliente.getNome().equals("fulano"))
-                .findFirst().orElse(null);
+        List<Cliente> clientes = clienteService.findAll();
 
+        assertEquals(4, clientes.size());
 
-        Cliente cliente3 = new Cliente();
-        cliente3.setNome("cliente3");
-        cliente3.setDataNascimento(LocalDate.of(2000, 3, 3));
-        clienteRepository.save(cliente3);
+        Cliente cliente1 = clientes.get(0);
+        assertEquals("davi", cliente1.getNome());
+        assertEquals(LocalDate.of(2002, 8, 20), cliente1.getDataNascimento());
+        assertEquals(2, cliente1.getEnderecos().size());
 
-        Cliente cliente4 = new Cliente();
-        cliente4.setNome("cliente4");
-        cliente4.setDataNascimento(LocalDate.of(1995, 2, 2));
-        clienteRepository.save(cliente4);
+        Cliente cliente2 = clientes.get(1);
+        assertEquals("fulano", cliente2.getNome());
+        assertEquals(LocalDate.of(1990, 4, 15), cliente2.getDataNascimento());
+        assertEquals(1, cliente2.getEnderecos().size());
 
-        assertEquals(clientesEncontrados.size(), 4);
+        Cliente cliente3 = clientes.get(2);
+        assertEquals("cliente3", cliente3.getNome());
+        assertEquals(LocalDate.of(2000, 3, 3), cliente3.getDataNascimento());
+        assertEquals(0, cliente3.getEnderecos().size());
 
-        assertEquals(cliente3.getNome(),clientesEncontrados.get(2).getNome());
-        assertEquals(cliente3.getDataNascimento(),clientesEncontrados.get(2).getDataNascimento());
-        assertEquals(cliente4.getNome(),clientesEncontrados.get(3).getNome());
-        assertEquals(cliente4.getDataNascimento(),clientesEncontrados.get(3).getDataNascimento());
+        Cliente cliente4 = clientes.get(3);
+        assertEquals("cliente4", cliente4.getNome());
+        assertEquals(LocalDate.of(1995, 2, 2), cliente4.getDataNascimento());
+        assertEquals(0, cliente4.getEnderecos().size());
     }
 
     @Test
@@ -249,6 +254,7 @@ public class ClienteServiceTest {
 
     @Test
     public void testAtualizarClienteSemEndereco(){
+        Cliente clienteBanco = clienteService.findById(1L);
         Endereco enderecoAntigo = new Endereco();
         enderecoAntigo.setLogradouro("rua rio de janeiro");
         enderecoAntigo.setCep("00000-000");
@@ -266,11 +272,13 @@ public class ClienteServiceTest {
         Cliente cliente = new Cliente();
         cliente.setNome("arthur");
         cliente.setDataNascimento(LocalDate.of(2010,10,10));
-
+        System.out.println(clienteBanco);
 
 
         clienteService.updateCliente(1L,cliente);
         Cliente clienteAtualizado = clienteService.findById(1L);
+        System.out.println(clienteBanco);
+        System.out.println(clienteAtualizado);
 
         assertEquals(clienteAtualizado.getNome(),cliente.getNome());
         assertEquals(clienteAtualizado.getDataNascimento(),cliente.getDataNascimento());
@@ -287,29 +295,30 @@ public class ClienteServiceTest {
 
     @Test
     public void testAtualizarClienteComEndereco(){
-        Endereco enderecoAtualizado = new Endereco();
-        enderecoAtualizado.setLogradouro("rua b");
-        enderecoAtualizado.setCep("11111-111");
-        enderecoAtualizado.setCidade("campina grande");
-        enderecoAtualizado.setNumero("111");
-        enderecoAtualizado.setPrincipal(true);
+        Endereco enderecoNovo = new Endereco();
+        enderecoNovo.setLogradouro("rua b");
+        enderecoNovo.setCep("11111-111");
+        enderecoNovo.setCidade("campina grande");
+        enderecoNovo.setNumero("111");
+        enderecoNovo.setPrincipal(true);
 
         Cliente cliente = new Cliente();
         cliente.setNome("arthur");
         cliente.setDataNascimento(LocalDate.of(2010,10,10));
-        cliente.setEnderecos(List.of(enderecoAtualizado));
-        enderecoAtualizado.setCliente(cliente);
+        cliente.setEnderecos(List.of(enderecoNovo));
+        enderecoNovo.setCliente(cliente);
 
        clienteService.updateCliente(1L,cliente);
 
         Cliente clienteAtualizado = clienteService.findById(1L);
 
+        Endereco enderecoAtualizado = clienteService.findById(1L)
+                .getEnderecos().stream().filter(endereco -> endereco.getLogradouro()=="rua b").findFirst().get();
+
         assertEquals(clienteAtualizado.getNome(),cliente.getNome());
         assertEquals(clienteAtualizado.getDataNascimento(),cliente.getDataNascimento());
-        assertEquals(clienteAtualizado.getEnderecos().get(0).getNumero(),enderecoAtualizado.getNumero());
-        assertEquals(clienteAtualizado.getEnderecos().get(0).getCep(),enderecoAtualizado.getCep());
-        assertEquals(clienteAtualizado.getEnderecos().get(0).getCidade(),enderecoAtualizado.getCidade());
-        assertEquals(clienteAtualizado.getEnderecos().get(0).getLogradouro(),enderecoAtualizado.getLogradouro());
+        assertTrue(enderecoAtualizado.equals(enderecoNovo));
+
 
     }
     @Test
@@ -325,6 +334,14 @@ public class ClienteServiceTest {
 
         assertFalse(cliente.getEnderecos().get(0).isPrincipal());
         assertTrue(cliente.getEnderecos().get(1).isPrincipal());
+    }
+    @Test
+    public void testGetEnderecosClienteNotFound() {
+        Long clienteId = 1L;
+
+        Mockito.when(clienteRepository.findById(clienteId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ClienteNotFoundException.class, () -> clienteService.getEnderecos(clienteId));
     }
 
     @Test
@@ -350,17 +367,6 @@ public class ClienteServiceTest {
         clienteService.deleteClienteById(1L);
 
         Mockito.verify(clienteRepository, Mockito.times(1)).deleteById(1L);
-
     }
-
-
-
-
-
-
-
-
-
-
 
 }
