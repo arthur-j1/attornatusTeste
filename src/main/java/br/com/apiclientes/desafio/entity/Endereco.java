@@ -3,7 +3,6 @@ package br.com.apiclientes.desafio.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.Objects;
@@ -40,7 +39,6 @@ public class Endereco {
     @Column(name = "endereco_principal")
     private boolean principal;
 
-
     public String toString(){
         return "ID : " + this.getId() +
                 ", Logradouro : " + this.getLogradouro() +
@@ -49,8 +47,6 @@ public class Endereco {
                 ", Cidade: " + this.getCidade()+
                 ", Pricipal: "+this.isPrincipal();
     }
-
-
 
     @Override
     public boolean equals(Object o) {
@@ -66,15 +62,9 @@ public class Endereco {
                 isPrincipal() == endereco.isPrincipal();
     }
 
-
-
     @Override
     public int hashCode() {
         return Objects.hash(getCliente(), getId(), getLogradouro(), getCep(), getNumero(), getCidade());
     }
-
-
-
-
 
 }
