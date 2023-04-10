@@ -21,12 +21,14 @@ public class EnderecoService {
     private EnderecoRepository enderecoRepository;
     @Autowired
     private ClienteRepository clienteRepository;
-
+    @Autowired
+    private ClienteService clienteService;
 
 
     public List<Endereco> findAll(){
         return enderecoRepository.findAll();
     }
+
 
     public Endereco findById(Long id) {
         Optional<Endereco> endereco = enderecoRepository.findById(id);
@@ -41,21 +43,13 @@ public class EnderecoService {
     public Endereco createEndereco(Long clienteId, Endereco endereco) {
         Optional<Cliente> clienteBanco = clienteRepository.findById(clienteId);
         if (clienteBanco.isPresent()) {
-//            if (endereco.getCep().length() != 8){
-//                throw new CepInvalidoException();
-//            }
-            if (clienteBanco.get().getEnderecos() != null){
-                clienteBanco.get().adicionarEndereco(endereco);
-            }else{
-                clienteBanco.get().setEnderecos(List.of(endereco));
-            }
+            clienteBanco.get().getEnderecos().add(endereco);
             endereco.setCliente(clienteBanco.get());
             return enderecoRepository.save(endereco);
         }else {
             throw new ClienteNotFoundException(clienteId);
         }
     }
-
 
 
     public void deleteEnderecoComAutenticacao(Long clienteId,Long enderecoId){
