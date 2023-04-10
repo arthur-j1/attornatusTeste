@@ -11,7 +11,6 @@ import br.com.apiclientes.desafio.service.EnderecoService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -191,21 +189,21 @@ public class EnderecoServiceTest {
 
     }
 
-//    @Test
-//    public void testDeleteEnderecoByIdComIdInexistente(){
-//
-//        ;
-////        when(enderecoRepository.findById(5L)).thenReturn(Optional.empty());
-////        enderecoService.deleteEnderecoById(5L);
-//
-//        Exception exception = Assertions.assertThrows(EnderecoNotFoundException.class, () -> {
-//            enderecoService.findById(5L);
-//        });
-//        String expectedMessage = "Endereço com o ID "+ 5L +" não encontrado!";
-//        String actualMessage = exception.getMessage();
-//        assertTrue(actualMessage.contains(expectedMessage));
-//
-//    }
+    @Test
+    public void testDeleteEnderecoByIdComIdInexistente(){
+
+        ;
+        when(enderecoRepository.findById(5L)).thenReturn(Optional.empty());
+
+
+        Exception exception = Assertions.assertThrows(EnderecoNotFoundException.class, () -> {
+            enderecoService.findById(5L);
+        });
+        String expectedMessage = "Endereço com o ID "+ 5L +" não encontrado!";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
+    }
 
     @Test
     public void testDeleteEnderecoComAutenticacao() {
@@ -222,10 +220,5 @@ public class EnderecoServiceTest {
         Mockito.when(enderecoRepository.findById(2L)).thenReturn(Optional.empty());
         assertThrows(EnderecoNotFoundException.class, () -> enderecoService.deleteEnderecoComAutenticacao(1L, 3L));
     }
-
-
-
-
-
 
 }
