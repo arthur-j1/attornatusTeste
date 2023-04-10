@@ -1,5 +1,6 @@
 package br.com.apiclientes.desafio.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +9,6 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -37,7 +37,7 @@ public class Cliente {
     @Column()
     @OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Endereco> enderecos = new ArrayList<>();
+    private List<Endereco> enderecos;
 
 
     public Endereco consultaEnderecoPrincipal(){
@@ -50,10 +50,9 @@ public class Cliente {
         return enderecoPrincipal;
     }
 
+
     public void adicionarEndereco(Endereco endereco){
-        this.getEnderecos().add(endereco);
-
-
+        this.enderecos.add(endereco);
     }
 
 
@@ -69,7 +68,6 @@ public class Cliente {
                 ", Data de nascimento : " + this.getDataNascimento() +
                 ", Endereços : " + enderecoStr;
     }
-
 
     @Override
     public boolean equals(Object o) {
